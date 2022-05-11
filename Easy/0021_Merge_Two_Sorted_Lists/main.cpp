@@ -25,19 +25,19 @@ public:
         };
         ListNode *merged { front };
 
-        // Move front pointer to the cut point
-        while (front->next != nullptr &&
-                front->next->val < back->val) {
+        while (front && back) {
+            // Move front pointer to the cut point
+            while (front->next != nullptr &&
+                    front->next->val <= back->val) {
+                front = front->next;
+            }
+            ListNode *next_back { front->next };
+
+            // Partially sort by moving pointers
+            front->next = back;
             front = front->next;
+            back = next_back;
         }
-        ListNode *next_front { front->next };
-
-        // Partially sort by moving pointers
-        front->next = back;
-        front = next_front;
-
-        // Recursion
-        back->next = merge_two_lists(front, back->next);
         
         return merged;
 
