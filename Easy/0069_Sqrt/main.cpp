@@ -3,13 +3,24 @@
 
 class Solution {
 
+private:
+    int Square(int num) { return num * num; }
+
 public:
     int MySqrt(int x) {
 
-        int k {};
-        while ((long long) k * k <= x) k++;
+        int start { 0 };
+        int end { 46'340 };
 
-        return (k - 1);
+        while (start < end) {
+            const int mid { (start + end) / 2 };
+
+            if (x < Square(mid)) end = mid - 1;
+            else if (x >= Square(mid + 1)) start = mid + 1;
+            else return mid;
+        }
+
+        return start;
 
     }
 
