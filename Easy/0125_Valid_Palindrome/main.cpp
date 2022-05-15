@@ -6,13 +6,18 @@ using std::string;
 class Solution {
  public:
   bool IsPalindrome(string s) {
-    size_t length{};
-    for (size_t i{}; i < s.length(); i++) {
-      if (std::isalpha(s[i]) || std::isdigit(s[i]))
-        s[length++] = s[i] + (std::isupper(s[i]) ? 'a' - 'A' : 0);
-    }
-    for (size_t i{}; i < length / 2; i++) {
-      if (s[i] != s[length - i - 1]) return false;
+    size_t left{0}, right{s.length() - 1};
+    while (left < right) {
+      if (!std::isalnum(s[left]))
+        left++;
+      else if (!std::isalnum(s[right]))
+        right--;
+      else if (std::tolower(s[left]) != std::tolower(s[right]))
+        return false;
+      else {
+        left++;
+        right--;
+      }
     }
     return true;
   }
