@@ -7,13 +7,13 @@ struct ListNode {
 class Solution {
  public:
   bool HasCycle(ListNode *head) {
-    for (ListNode *curr{head}; curr; curr = curr->next) {
-      if (curr->val > kNodeValueRange) return true;
-      curr->val += 2 * kNodeValueRange + 1;
+    ListNode *slow = head;
+    ListNode *fast = head;
+    while (fast && fast->next) {
+      slow = slow->next;
+      fast = fast->next->next;
+      if (slow == fast) return true;
     }
     return false;
   }
-
- private:
-  static constexpr int kNodeValueRange = 100'000;
 };
