@@ -1,29 +1,24 @@
 #include <iostream>
-#include <cstring>
+#include <map>
 #include <string>
 
 using std::string;
 
 class Solution {
  public:
-  bool IsIsomorphic(string s, string t) {
-    char *const mapping = new char[128];
-    char *const reverse_mapping = new char[128];
-    std::memset(mapping, 0, 128);
-    std::memset(reverse_mapping, 0, 128);
-    for (size_t i = 0; i < s.length(); i++) {
-      if (!mapping[s[i]] && !reverse_mapping[t[i]]) {
-        mapping[s[i]] = t[i];
-        reverse_mapping[t[i]] = s[i];
-      } else if (!mapping[s[i]] || !reverse_mapping[t[i]]) {
-        return false;
-      } else if (mapping[s[i]] != t[i] || reverse_mapping[t[i]] != s[i]) {
-        return false;
+  bool IsomorphicHelper(string s, string t) {
+    std::map<char, char> map;
+    for (size_t i = 0; i < s.size(); i++) {
+      if (map.find(s[i]) != map.end()) {
+        if (map[s[i]] != t[i]) return false;
+      } else {
+        map[s[i]] = t[i];
       }
     }
-    delete[] mapping;
-    delete[] reverse_mapping;
     return true;
+  }
+  bool IsIsomorphic(string s, string t) {
+    return IsomorphicHelper(s, t) && IsomorphicHelper(t, s);
   }
 };
 
