@@ -1,5 +1,5 @@
 #include <iostream>
-#include <algorithm>
+#include <set>
 #include <vector>
 
 using std::vector;
@@ -7,9 +7,11 @@ using std::vector;
 class Solution {
  public:
   bool ContainsDuplicate(vector<int> &nums) {
-    std::sort(nums.begin(), nums.end());
-    for (size_t i = 0; i < nums.size() - 1; i++)
-      if (nums[i] == nums[i + 1]) return true;
+    std::set<int> found;
+    for (const int num: nums) {
+      if (found.find(num) != found.end()) return true;
+      found.insert(num);
+    }
     return false;
   }
 };
