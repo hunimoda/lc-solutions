@@ -1,6 +1,5 @@
 #include <vector>
 #include <string>
-#include <sstream>
 
 using std::vector;
 using std::string;
@@ -8,11 +7,10 @@ using std::string;
 class Solution {
  private:
   string MakeRangeOf(int start, int end) {
-    std::ostringstream stream;
-    stream << start;
+    string range = std::to_string(start);
     if (start != end)
-      stream << "->" << end;
-    return stream.str();
+      range += "->" + std::to_string(end);
+    return range;
   }
 
  public:
