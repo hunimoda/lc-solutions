@@ -6,40 +6,32 @@ using namespace std::chrono;
 
 class MyQueue {
  private:
-  std::stack<int> up;
-  std::stack<int> down;
+  std::stack<int> in;
+  std::stack<int> out;
 
  public:
   MyQueue() {}
 
-  void Push(int x) {
-    if (up.empty()) {
-      const size_t down_size = down.size();
-      for (size_t i = 0; i < down_size; i++) {
-        up.push(down.top());
-        down.pop();
-      }
-    }
-    up.push(x);
-  }
+  void Push(int x) { in.push(x); }
 
   int Pop() {
     int temp = Peek();
-    down.pop();
+    out.pop();
     return temp;
   }
 
   int Peek() {
-    const size_t up_size = up.size();
-    for (size_t i = 0; i < up_size; i++) {
-      down.push(up.top());
-      up.pop();
+    if (out.empty()) {
+      while (!in.empty()) {
+        out.push(in.top());
+        in.pop();
+      }
     }
-    return down.top();
+    return out.top();
   }
 
   bool Empty() {
-    return up.empty() && down.empty();
+    return in.empty() && out.empty();
   }
 };
 
