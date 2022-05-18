@@ -4,39 +4,30 @@
 
 class MyStack {
  private:
-  int top_;
   std::queue<int> queue;
 
  public:
-  MyStack() : top_(0) {}
+  MyStack() {}
   void Push(int x) {
-    if (top_ != 0) {
-      queue.push(top_);
-      for (size_t i = 0; i < queue.size() - 1; i++) {
-        queue.push(queue.front());
-        queue.pop();
-      }
+    queue.push(x);
+    for (size_t i = 0; i < queue.size() - 1; i++) {
+      queue.push(queue.front());
+      queue.pop();
     }
-    top_ = x;
   }
 
   int Pop() {
-    int temp_top = top_;
-    if (queue.empty()) {
-      top_ = 0;
-    } else {
-      top_ = queue.front();
-      queue.pop();
-    }
-    return temp_top;
+    int pop = Top();
+    queue.pop();
+    return pop;
   }
 
   int Top() {
-    return top_;
+    return queue.front();
   }
-  
+
   bool Empty() {
-    return top_ == 0;
+    return queue.empty();
   }
 };
 
