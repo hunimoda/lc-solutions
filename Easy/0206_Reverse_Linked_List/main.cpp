@@ -9,18 +9,14 @@ struct ListNode {
 class Solution {
  public:
   ListNode *ReverseList(ListNode *head) {
-    if (!head) return nullptr;
+    if (head == nullptr || head->next == nullptr)
+      return head;
     ListNode *reversed = ReverseList(head->next);
     ListNode *end = reversed;
-    while (end && end->next) {
+    while (end->next)
       end = end->next;
-    }
-    if (end) {
-      end->next = head;
-      head->next = nullptr;
-    } else {
-      reversed = head;
-    }
+    head->next = nullptr;
+    end->next = head;
     return reversed;
   }
 };
