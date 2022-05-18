@@ -8,12 +8,10 @@ class Solution {
   bool ContainsNearbyDuplicate(vector<int> &nums, int k) {
     std::unordered_map<int, int> record;
     for (size_t i = 0; i < nums.size(); i++) {
-      std::unordered_map<int, int>::const_iterator it = record.find(nums[i]);
-      if (it != record.end()) {
+      if (record.count(nums[i])) {
         if (i - record[nums[i]] <= k) return true;
-        record.erase(nums[i]);
       }
-      record.insert({nums[i], i});  // 1
+      record[nums[i]] = i;
     }
     return false;
   }
