@@ -6,10 +6,8 @@ class Solution {
  public:
   vector<int> CountBits(int n) {
     vector<int> bit_counts{0};
-    for (int i_limit = 1; i_limit <= n; i_limit <<= 1) {
-      for (int i = 0; i <= std::min(i_limit - 1, n - i_limit); i++)
-        bit_counts.push_back(1 + bit_counts[i]);
-    }
+    for (int i = 1; i <= n; i++)
+      bit_counts.push_back(bit_counts[i >> 1] + (i & 1));
     return bit_counts;
   }
 };
