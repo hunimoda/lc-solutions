@@ -6,13 +6,13 @@ using std::vector;
 class Solution {
  public:
   int ThirdMax(vector<int> &nums) {
-    vector<int> copy(nums);
-    std::sort(copy.begin(), copy.end());
-    int distinct = 1, last_number = copy[copy.size() - 1];
-    for (int i = copy.size() - 2; i >= 0 && distinct < 3; i--) {
-      if (copy[i] == last_number) continue;
-      distinct++, last_number = copy[i];
+    vector<int> max;
+    for (const int &num : nums) {
+      if (std::find(max.begin(), max.end(), num) != max.end()) continue;
+      max.push_back(num);
+      std::sort(max.begin(), max.end(), std::greater<int>());
+      if (max.size() > 3) max.pop_back();
     }
-    return distinct == 3 ? last_number : copy[copy.size() - 1];
+    return max.size() == 3 ? max.back() : max.front();
   }
 };
