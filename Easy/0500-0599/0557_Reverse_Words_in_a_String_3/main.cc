@@ -1,6 +1,4 @@
-#include <iostream>
 #include <string>
-#include <sstream>
 #include <algorithm>
 
 using std::string;
@@ -8,19 +6,11 @@ using std::string;
 class Solution {
  public:
   string ReverseWords(string s) {
-    std::stringstream ss(s);
-    string word, reversed;
-    while (ss >> word) {
-      std::reverse(word.begin(), word.end());
-      reversed += word + ' ';
+    for (size_t start = 0, end = 1; end <= s.size(); end++) {
+      if (end != s.size() && s[end] != ' ') continue;
+      std::reverse(s.begin() + start, s.begin() + end);
+      start = end + 1, end = start;
     }
-    reversed.pop_back();
-    return reversed;
+    return s;
   }
 };
-
-int main() {
-  Solution solution;
-  std::cout << solution.ReverseWords("What a wonderful world!") << std::endl;
-  return 0;
-}
