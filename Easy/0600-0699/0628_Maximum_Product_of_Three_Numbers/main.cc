@@ -6,49 +6,26 @@
 using std::vector;
 using std::stack;
 
-void PrintVector(const vector<int> &);
+void PrintVector(const vector<int> &nums) {
+  std::cout << "\n---- Print Vector -----------------------------" << std::endl;
+  std::cout << "  ";
+  for (const int num : nums)
+    std::cout << num << " ";
+  std::cout << std::endl;
+}
 
 class Solution {
  public:
   int MaximumProduct(vector<int> &nums) {
-    if (nums.size() == 3) return nums[0] * nums[1] * nums[2];
-
-    vector<int> pos, neg;
-    for (const int num : nums)
-      num >= 0 ? pos.push_back(num) : neg.push_back(num);
-    
-    if (pos.size() == 0)
-      return ProductOfExtremeValues(neg);
-    if (pos.size() < 3) {
-      return GetExtremeValues(pos, 1)[0] *
-             ProductOfExtremeValues(neg, 2, false);
-    }
-    if (neg.size() < 2)
-      return ProductOfExtremeValues(pos);
-
-    vector<int> largest_pos = GetExtremeValues(pos);
-    const int largest_pos_product = CalculateProduct(largest_pos);
-    return std::max(largest_pos_product,
-                    largest_pos[0] * ProductOfExtremeValues(neg, 2, false));
+    vector<int> max_nums = GetExtremeValues(nums);
+    vector<int> min_nums = GetExtremeValues(nums, 2, false);
+    PrintVector(max_nums);
+    PrintVector(min_nums);
+    return std::max(max_nums[0] * max_nums[1] * max_nums[2],
+                    max_nums[0] * min_nums[0] * min_nums[1]);
   }
 
  private:
-  int ProductOfExtremeValues(const vector<int> &nums, const int count = 3,
-                             bool is_largest = true) {
-    return CalculateProduct(GetExtremeValues(nums, count, is_largest));
-  }
-  
-  int CalculateProduct(const vector<int> &nums) {
-    int product = 1;
-    for (const int num : nums)
-      product *= num;
-    return product;
-  }
-
-  int CalculateProduct(vector<int> &&nums) {
-    return CalculateProduct(nums);
-  }
-
   vector<int> GetExtremeValues(const vector<int> &nums, const int count = 3,
                                bool is_largest = true) {
     stack<int> s, temp;
@@ -69,17 +46,9 @@ class Solution {
   }
 };
 
-void PrintVector(const vector<int> &nums) {
-  std::cout << "---- Print Vector----------------------------" << std::endl;
-  std::cout << "  ";
-  for (const int num : nums)
-    std::cout << num << " ";
-  std::cout << std::endl;
-}
-
 int main() {
   Solution solution;
-  vector<int> nums{1, 6, 4, 2, -8, 9, 2, -4};
+  vector<int> nums{-1, -2, -3, -4};
   solution.MaximumProduct(nums);
   return 0;
 }
