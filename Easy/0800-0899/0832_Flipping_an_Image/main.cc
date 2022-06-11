@@ -8,9 +8,8 @@ class Solution {
  public:
   vector<vector<int>> FlipAndInvertImage(vector<vector<int>> &image) {
     for (auto &row : image) {
-      reverse(row.begin(), row.end());
-      for (auto &pixel : row)
-        pixel = pixel ? 0 : 1;
+      for (int i = 0, j = image.size() - 1; i <= j; i++, j--)
+        if (row[i] == row[j]) row[i] = (row[j] = row[j] ? 0 : 1);
     }
     return image;
   }
