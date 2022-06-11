@@ -9,7 +9,7 @@ class Solution {
   vector<vector<int>> FlipAndInvertImage(vector<vector<int>> &image) {
     for (auto &row : image) {
       for (int i = 0, j = image.size() - 1; i <= j; i++, j--)
-        if (row[i] == row[j]) row[i] = (row[j] = row[j] ? 0 : 1);
+        if (row[i] == row[j]) row[i] = row[j] ^= 1;
     }
     return image;
   }
