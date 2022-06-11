@@ -6,21 +6,20 @@ using std::stack;
 
 class Solution {
  public:
-  bool BackspaceCompare(string &s, string &t) {
-    return ToTypedString(s) == ToTypedString(t);
+  bool backspaceCompare(const string &s, const string &t) {
+    return ToStack(s) == ToStack(t);
   }
 
  private:
-  string &ToTypedString(string &s) {
-    int length = 0;
+  stack<char> ToStack(const string &s) {
+    stack<char> ss;
     for (auto c : s) {
       if (c != '#') {
-        s[length++] = c;
-      } else if (length > 0) {
-        length--;
+        ss.push(c);
+      } else if (!ss.empty()) {
+        ss.pop();
       }
     }
-    s.resize(length);
-    return s;
+    return ss;
   }
 };
