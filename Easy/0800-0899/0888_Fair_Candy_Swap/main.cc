@@ -1,28 +1,26 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
+#include <numeric>
 
 using std::vector;
 using std::unordered_set;
+using std::accumulate;
 
 class Solution {
  public:
   vector<int> FairCandySwap(const vector<int> &me, const vector<int> &you) {
-    int give_me = 0;
-    unordered_set<int> my_set, your_set;
+    unordered_set<int> your_set;
     vector<int> swap;
+    int give_me = -accumulate(me.begin(), me.end(), 0);
 
-    for (auto candy : me) give_me -= candy, my_set.insert(candy);
-    for (auto candy : you) give_me += candy, your_set.insert(candy);
+    for (auto candy : you)
+      your_set.insert(candy), give_me += candy;
     give_me /= 2;
 
-    auto it = my_set.begin();
-    while (swap.empty()) {
-      if (your_set.count(give_me + *it))
-        swap = {*it, give_me + *it};
-      it++;
-    }
-    return swap;
+    auto it = me.begin();
+    while (!your_set.count(give_me + *it)) it++;
+    return {*it, give_me + *it};
   }
 };
 
