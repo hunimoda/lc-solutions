@@ -10,13 +10,9 @@ using std::accumulate;
 class Solution {
  public:
   vector<int> FairCandySwap(const vector<int> &me, const vector<int> &you) {
-    unordered_set<int> your_set;
-    vector<int> swap;
-    int give_me = -accumulate(me.begin(), me.end(), 0);
-
-    for (auto candy : you)
-      your_set.insert(candy), give_me += candy;
-    give_me /= 2;
+    unordered_set<int> your_set(you.begin(), you.end());
+    int give_me = (accumulate(you.begin(), you.end(), 0) -
+                   accumulate(me.begin(), me.end(), 0)) / 2;
 
     auto it = me.begin();
     while (!your_set.count(give_me + *it)) it++;
