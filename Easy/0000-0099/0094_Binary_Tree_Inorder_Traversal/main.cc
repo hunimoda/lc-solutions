@@ -1,10 +1,8 @@
 #include <vector>
 #include <stack>
-#include <unordered_set>
 
 using std::vector;
 using std::stack;
-using std::unordered_set;
 
 struct TreeNode {
   int val;
@@ -14,49 +12,43 @@ struct TreeNode {
       : val(val), left(left), right(right) {}
 };
 
-/*// Recursive version
+/*// Recursive
 class Solution {
  public:
   vector<int> InorderTraversal(TreeNode *root) {
-    if (!root) return {};
-
-    vector<int> result{InorderTraversal(root->left)};
-    vector<int> right{InorderTraversal(root->right)};
-
-    result.push_back(root->val);
-    result.insert(result.end(), right.begin(), right.end());
+    vector<int> result;
+    if (root) InorderTraversalHelper(root, result);
     return result;
+  }
+
+ private:
+  void InorderTraversalHelper(TreeNode *root, vector<int> &result) {
+    if (root->left)
+      InorderTraversalHelper(root->left, result);
+    result.push_back(root->val);
+    if (root->right)
+      InorderTraversalHelper(root->right, result);
   }
 };*/
 
-// Iterative version
+// Iterative
 class Solution {
  public:
   vector<int> InorderTraversal(TreeNode *root) {
-    if (!root) return {};
-
-    unordered_set<TreeNode *> visited{nullptr};
-    stack<TreeNode *> s({root});
     vector<int> result;
-    result.reserve(100);
+    stack<TreeNode *> next_visit;
 
-    while (!s.empty()) {
-      TreeNode *current = s.top();
-      if (!visited.count(current->left)) {
-        s.push(current->left);
-      } else if (current->right && visited.count(current->right)) {
-        s.pop();
+    while (root || !next_visit.empty()) {
+      if (root) {
+        next_visit.push(root);
+        root = root->left;
       } else {
-        result.push_back(current->val);
-        visited.insert(current);
-
-        if (!visited.count(current->right)) {
-          s.push(current->right);
-        } else {
-          s.pop();
-        }
+        root = next_visit.top(), next_visit.pop();
+        result.push_back(root->val);
+        root = root->right;
       }
     }
+
     return result;
   }
 };
