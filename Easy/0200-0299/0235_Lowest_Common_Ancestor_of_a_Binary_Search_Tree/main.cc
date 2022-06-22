@@ -1,8 +1,10 @@
 #include <deque>
 #include <stack>
+#include <algorithm>
 
 using std::deque;
 using std::stack;
+using std::swap;
 
 struct TreeNode {
   int val;
@@ -14,6 +16,7 @@ struct TreeNode {
       : val(val), left(left), right(right) {}
 };
 
+// for generic binary tree
 class Solution {
  public:
   TreeNode *LowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q) {
@@ -47,5 +50,20 @@ class Solution {
     }
     deq.push_back(target);
     return deq;
+  }
+};
+
+// recursive solution for bst
+class Solution {
+ public:
+  TreeNode *LowestCommonAncestor(TreeNode *root,
+                                 TreeNode *small, TreeNode *big) {
+    if (small->val > big->val) swap(small, big);
+    if (small == root ||
+        big == root ||
+        (small->val < root->val) && (root->val < big->val))
+      return root;
+    return LowestCommonAncestor(
+        small->val > root->val ? root->right : root->left, small, big);
   }
 };
